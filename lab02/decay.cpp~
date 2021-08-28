@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <math.h>
+
+float A(float t);
+
+int main() {
+  float A_0;
+  int t;
+  for (t=0; t<11; t=t+1) {
+    printf("t=%d\n",t);
+  }
+  
+  
+  printf("#t/t_half Fraction remaining\n");
+  printf("%9d\n",t);
+  printf("%.3f\n",A(t));
+  return 0;
+}
+
+float A(float t) {
+  return (pow(0.5,t));
+    }
+

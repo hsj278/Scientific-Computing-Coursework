@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include "random.hpp"
+
+double range(double v_vec[0],double time);
+double max_height(double v_vec[1]);
+double total_time(
+
+int main(int argc,char* argv[]){
+  double s_vec[2];
+  double v_vec[2];
+  double v0 = atof(argv[1]);
+  double theta = atof(argv[2]);
+
+  v_vec[0] = v0*cos(theta);
+  v_vec[1] = v0*sin(theta);
+
+  

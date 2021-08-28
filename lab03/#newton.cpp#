@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <math.h>
+
+double difference(double x,double N);
+
+int main(){
+  double x;
+  double N;
+  
+  printf("Enter the number to square root: \n");
+  scanf("%lf",&N);
+
+}
+
+double difference(double x,double N){
+  return(pow(x,2)-N)
+    }

@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include <stlib.h>
+#include <libmylib.a>
+
+int main(){
+
+  Complex z = 5 + 4i;
+
+  printf("The conjugate is %lf\n",complex_conjugate(*z));
+  printf("The magnitude is %lf\n",magnitude(z));
+  printf("The complex number you gave is %lf\n",print(z));
+
+  return(0);
+}

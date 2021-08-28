@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc,char* argv[]){
+  if(argc == 1){
+    printf("Please enter the password, name of input file, and the name of output file\n");
+  }
+  else{
+    FILE *Infile,*Outfile;
+    int n = strlen(argv[1]);
+    char pswd[n];
+    char realpswd[] = "phys2660";
+
+    //Assigning input password into an array
+    for(int i=0;i<n;i++){
+      pswd[i]=argv[1][i];
+    }
+
+    Infile = fopen(argv[2],"rb");
+    Outfile = fopen(argv[3],"wb");
+
+    //Determining the length of the string
+    int m = 0;
+    while(1){
+      fgetc(Infile);
+      if(feof(Infile)) break;
+      m++;
+    }
+    
+    fclose(Infile);
+    fopen(argv[2],"rb");
+
+    char original[m];
+    int l=0;
+
+    //Assigning characters to an array
+    while(1){
+      char ch = (char) fgetc(Infile);
+      if(feof(Infile)) break;
+      original[l] = ch;
+      l++;
+    }
+    
+    //Encrypting the message
+    char encrypt[m];
+
+    for(int p=0;p<m;p++){
+      encrypt[p] = original[p]^realpswd[p%n];
+      printf("%c",encrypt[p]);
+    }
+    printf("\n");
+
+    char decrypt[m];
+    for(int q=0;q<m;q++){
+      decrypt[q] = encrypt[q]^pswd[q%n];
+      fputc(decrypt[q],Outfile);
+    }
+    fprintf(Outfile,"\n");
+
+    fclose(Infile);
+    fclose(Outfile);
+    
+    return 0;
+  }
+}

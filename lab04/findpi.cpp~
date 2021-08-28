@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(){
+  srand(time(NULL));
+
+
+  
+  return 0;
+}
+
+void throw_point(double *x, double *y){
+  static int i=0;
+  if(i==0) {
+    srand(time(NULL));
+    i=1;
+  }
+  
+  double n = 2*(rand()/(double)RAND_MAX)-1;

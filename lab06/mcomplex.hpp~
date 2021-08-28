@@ -1,0 +1,7 @@
+typedef struct{
+double re, im;
+} Complex;
+
+double magnitude_b(Complex z);
+void complex_conjugate(Complex *z);
+int print(Complex z);

@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+double xnorm(double u1, double u2);
+double ynorm(double u1, double u2);
+double rand0_1();  
+
+int main(){
+  double ranu1, ranu2, rann1, rann2; 
+  int i, n68=0;
+  const int NLOOPS = 1000;  // increase this number for more statistics
+  int nvalues = NLOOPS*2;
+  double sum = 0, sum2 = 0;
+  srand(time(NULL));     // seed the random number generator
+  for (i=0; i<NLOOPS; i++){
+    ranu1 = rand0_1();
+    ranu2 = rand0_1();
+    rann1 = xnorm(ranu1,ranu2);
+    rann2 = ynorm(ranu1,ranu2);
+    if (i<10)  // stop printing if NLOOPS is large
+      printf("%10.6f %10.6f  %10.6f %10.6f\n",ranu1,ranu2,rann1,rann2);
+    if (fabs(rann1)<1.0) n68++;
+    if (fabs(rann2)<1.0) n68++;
+    sum  += (rann1+rann2);
+    sum2 += (rann1*rann1+rann2*rann2);
+  }
+  printf("Completed calculation with %d trials\n",NLOOPS*2);
+  printf("%% of values found within the range +- 1.0 = %5.2f%%\n",
+	 (float)n68/(float)nvalues*100);
+  double variance = 1.0/(nvalues-1)*(sum2-sum*sum/nvalues);
+  printf("Variance = %lf\n",variance);
+  printf("Standard Deviation = %lf\n",sqrt(variance));
+  return 0;
+}
+
+double xnorm(double u1, double u2){
+  return sqrt(-2*log(u1))*cos(2*M_PI*u2);   // M_PI defined in math.h
+}                                        // see file: /usr/include/math.h
+
+double ynorm(double u1, double u2){
+  return sqrt(-2*log(u1))*sin(2*M_PI*u2);   // M_PI defined in math.h
+}
+
+double rand0_1(){                  // return a random number in range (0:1]
+  double value;
+  do { 
+    value = rand()/(double)RAND_MAX;
+  } while (!value);    // one way to make sure our return value is never 0
+  return value;
+}

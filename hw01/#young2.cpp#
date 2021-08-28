@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int main()
+{
+  FILE *inp;
+  int count=0;
+  char al[7];
+  char br[5];
+  char cu[6];
+  char wi[12];
+  char ss[12];
+  float y_al;
+  float y_br;
+  float y_cu;
+  float y_wi;
+  float y_ss;
+  float e_al;
+  float e_br;
+  float e_cu;
+  float e_wi;
+  float e_ss;
+  float L;
+  float R;
+  int status;
+
+  inp = fopen("young.dat","r");
+
+  fscanf(inp,"%s %f %f %s %f %f %s %f %f %s %f %f %s %f %f",al,&y_al,&e_al,br,&y_br,&e_br,cu,&y_cu,&e_cu,wi,&y_wi,&e_wi,ss,&y_ss,&e_ss);
+  printf("%s's Young's modulus: %.1f N/m^2\n%s's elastic limit: %.1f N/m^2\n",al,y_al,al,e_al);
+  printf("%s's Young's modulus: %.1f\n%s's elastic limit: %.1f\n",br,y_br,br,e_br);
+  printf("%s's Young's modulus: %.1f\n%s's elastic limit: %.1f\n",cu,y_cu,cu,e_cu);
+  printf("%s's Young's modulus: %.1f\n%s's elastic limit: %.1f\n",wi,y_wi,wi,e_wi);
+  printf("%s's Young's modulus: %.1f\n%s's elastic limit: %.1f\n",ss,y_ss,ss,e_ss);
+  printf("%s's Young's modulus: %.1f\n%s's elastic limit: %.1f\n",ss,y_ss,ss,e_\
+	 ss);
+ fclose(inp);
+
+  printf("Enter a length of the cylindrical rod in meters: ");
+  scanf("%f",&L);
+  printf("Enter a radius of the cylindrical rod in centimeters: ");
+  scanf("%f",&R);
+
+  return 0
+}
+

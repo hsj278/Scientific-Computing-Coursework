@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include "random.hpp"
+#include "hist.hpp"
+
+const double g = 9.8;
+const double PI = 3.1415;
+const int NTRIALS = 10000;
+
+double range(double v0,double theta);
+double max_height(double v0,double theta);
+double total_time(double v0,double theta);
+
+int main(int argc,char* argv[]){
+  if(argc == 1){
+    printf("please put the angle in degrees, the initial velocity, and k/m value.\n");
+  }
+  else{
+    double v0 = atof(argv[2]);
+    double theta = (PI/180.)*atof(argv[1]);
+    double kdivm = atof(argv[3]);
+    double Delta_t = 0.01;
+    FILE *outp;
+    h1 hist1;
+
+    //    double kdivm_uncer = kdivm + randu(-(kdivm/2),2*kdivm);
+
+    outp = fopen("resist.dat","w");
+
+    //int count = 0;
+    //int count_norm=0;
+    /*
+    h1init(&hist1,10,30);
+    h1init(&hist2,10,30);
+
+    for(int i=0;i<NTRIALS;i++){
+      double v0_err = v0 + randu(-0.3,0.3);
+      double theta_err = theta + randu(-(PI/180.)*0.35,(PI/180.)*0.35);
+      double v0_norm = randn(v0,0.3);
+      double theta_norm = randn(theta,(PI/180.)*0.35);
+
+      double x_range = range(v0_err,theta_err);
+      double x_range_norm = range(v0_norm,theta_norm);
+      //double y_max = max_height(v0_err,theta_err);
+      //double time = total_time(v0_err,theta_err);
+
+      h1fill(&hist1,x_range);
+      h1fill(&hist2,x_range_norm);
+
+     //  printf("%lf\n",x_range);
+      //  printf("%lf\n",y_max);
+      //  printf("%lf\n",time);
+      //  printf("\n");
+
+      if(x_range<=21 && x_range>=19){
+	count++;
+      }
+      if(x_range_norm<=21 && x_range_norm>=19){
+	count_norm++;
+      }
+    }
+   */
+
+    h1init(&hist1,100,300);
+
+    double vx=v0*cos(theta);
+    double vy=v0*sin(theta);
+    double x=0;
+    double y=0;
+    double t_total = 0;
+
+    for(int i=0;i<NTRIALS;i++){
+      double kdivm_uncer = randu((kdivm/2),2*kdivm);
+      while(y >= 0){
+	x += vx*Delta_t;
+	y += vy*Delta_t;
+	
+	vx += -(vx*(kdivm_uncer))*Delta_t;
+	vy += -(vy*(kdivm_uncer)+g)*Delta_t; 
+	
+	t_total += Delta_t;
+	
+	fprintf(outp,"%lf %lf %lf %lf %lf\n",t_total,x,y,vx,vy);
+      }
+      h1fill(&hist1,x);
+    }
+
+    h1plot(&hist1);
+
+    //printf("%lf %lf %lf %lf\n",x,y,vx,vy);
+    /*
+    double prob = 100.*((double)count/(double)NTRIALS);
+    double prob_norm = 100.*((double)count_norm/(double)NTRIALS);
+    printf("The probility of hitting the target is: %lf percent\n",prob);
+    printf("The probility of hitting the target is with normal distribution is: %lf percent\n",prob_norm);
+    h1plot(&hist1);
+    h1plot(&hist2);*/
+
+    fclose(outp);
+    return 0;
+  }
+}
+
+double range(double v0,double theta){
+  double x = (v0*cos(theta))*((2*v0*sin(theta))/g);
+  return x;
+}
+
+double max_height(double v0,double theta){
+  double height = (pow(v0*sin(theta),2))/(2*g);
+  return height;
+}
+
+double total_time(double v0,double theta){
+  double time = (2*v0*sin(theta))/g;
+  return time;
+}
